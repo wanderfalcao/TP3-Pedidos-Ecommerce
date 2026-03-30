@@ -1,12 +1,9 @@
 package com.ecommerce;
 
-import java.util.*;
-
 public class App {
     public static void main(String[] args) {
-        Order order = new Order();
-        order.clientName = "João";
-        order.clientEmail = "joao@email.com";
+        Client client = new Client("João", "joao@email.com");
+        Order order = new Order(client);
         order.products.add("Notebook");
         order.quantities.add(1);
         order.prices.add(3500.0);

@@ -1,19 +1,25 @@
 package com.ecommerce;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Order {
-    private Client client;
-    private List<Item> items = new ArrayList<>();
-    public double discountRate = 0.1;
+    private final Client client;
+    private final List<Item> items = new ArrayList<>();
+    private final double discountRate;
 
-    public Order(Client client) {
+    public Order(Client client, double discountRate) {
         this.client = client;
+        this.discountRate = discountRate;
     }
 
     public void addItem(Item item) {
         items.add(item);
+    }
+
+    public List<Item> getItems() {
+        return Collections.unmodifiableList(items);
     }
 
     public void printInvoice() {

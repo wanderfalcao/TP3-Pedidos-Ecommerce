@@ -14,7 +14,7 @@ O maior problema prático era as listas paralelas — `products`, `quantities` e
 mvn test
 ```
 
-Requer Java 25 e Maven instalados.
+Requer Java 21+ e Maven instalados.
 
 ## Refatorações aplicadas
 
@@ -41,5 +41,9 @@ src/main/java/com/ecommerce/
   EmailService.java  envio de email (usado internamente por Order)
 
 src/test/java/com/ecommerce/
-  OrderTest.java     5 testes cobrindo cálculo de subtotal, desconto e total
+  ClientTest.java    1 teste cobrindo armazenamento de dados do cliente
+  ItemTest.java      4 testes cobrindo subtotal e getters de Item
+  OrderTest.java     9 testes cobrindo cálculo de total, desconto e imutabilidade
 ```
+
+A cobertura é monitorada automaticamente pelo JaCoCo a cada push, com o relatório exibido diretamente na pipeline do GitHub Actions.

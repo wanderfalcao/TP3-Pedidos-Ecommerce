@@ -21,3 +21,11 @@ jobs:
 
       - name: Rodar testes
         run: mvn test
+
+      - name: Relatório de cobertura
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Cobertura de Testes
+          update-comment: true

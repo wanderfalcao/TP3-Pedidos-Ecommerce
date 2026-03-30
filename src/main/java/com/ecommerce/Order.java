@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Representa um pedido, associando um cliente a uma lista de itens
+ * e aplicando a taxa de desconto configurada.
+ */
 public class Order {
     private final Client client;
     private final List<Item> items = new ArrayList<>();
@@ -22,7 +26,7 @@ public class Order {
         return Collections.unmodifiableList(items);
     }
 
-    /** Retorna o total final do pedido após aplicação do desconto. */
+    /** @return total do pedido após desconto */
     public double calculateTotal() {
         double subtotal = calculateSubtotal();
         return subtotal - calculateDiscount(subtotal);
@@ -36,7 +40,6 @@ public class Order {
         return subtotal * discountRate;
     }
 
-    /** Imprime a fatura completa do pedido no console. */
     public void printInvoice() {
         double subtotal = calculateSubtotal();
         double discount = calculateDiscount(subtotal);
@@ -50,7 +53,6 @@ public class Order {
         System.out.println("Total final: R$" + (subtotal - discount));
     }
 
-    /** Envia o email de confirmação do pedido para o cliente. */
     public void sendEmail() {
         EmailService.sendEmail(client.getEmail(), "Pedido recebido! Obrigado pela compra.");
     }

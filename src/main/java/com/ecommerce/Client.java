@@ -13,12 +13,10 @@ public class Client {
         this.email = email;
     }
 
-    /** Retorna o nome do cliente. */
     public String getName() {
         return name;
     }
 
-    /** Retorna o email do cliente. */
     public String getEmail() {
         return email;
     }

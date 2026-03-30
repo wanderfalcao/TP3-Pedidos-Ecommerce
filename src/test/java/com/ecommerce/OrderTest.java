@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.within;
 
 class OrderTest {
@@ -56,5 +57,34 @@ class OrderTest {
         order.addItem(new Item("Mouse", 2, 80.0));
 
         assertThat(order.getItems()).hasSize(2);
+    }
+
+    @Test
+    void emptyOrderTotalIsZero() {
+        assertThat(order.calculateTotal()).isCloseTo(0.0, within(0.01));
+    }
+
+    @Test
+    void totalWithZeroDiscount() {
+        Order orderNoDiscount = new Order(new Client("Ana", "ana@email.com"), 0.0);
+        orderNoDiscount.addItem(new Item("Notebook", 1, 3500.0));
+
+        assertThat(orderNoDiscount.calculateTotal()).isCloseTo(3500.0, within(0.01));
+    }
+
+    @Test
+    void totalWithFullDiscount() {
+        Order orderFullDiscount = new Order(new Client("Ana", "ana@email.com"), 1.0);
+        orderFullDiscount.addItem(new Item("Notebook", 1, 3500.0));
+
+        assertThat(orderFullDiscount.calculateTotal()).isCloseTo(0.0, within(0.01));
+    }
+
+    @Test
+    void getItemsIsUnmodifiable() {
+        order.addItem(new Item("Notebook", 1, 3500.0));
+
+        assertThatThrownBy(() -> order.getItems().add(new Item("Mouse", 1, 80.0)))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

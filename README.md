@@ -1,5 +1,10 @@
 # Refatoração — Sistema de Pedidos E-commerce
 
+[![Build e Testes](https://github.com/wanderfalcao/TP3-Pedidos-Ecommerce/actions/workflows/build.yml/badge.svg)](https://github.com/wanderfalcao/TP3-Pedidos-Ecommerce/actions/workflows/build.yml)
+[![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk)](https://openjdk.org/projects/jdk/21/)
+[![Maven](https://img.shields.io/badge/build-Maven-red?logo=apachemaven)](https://maven.apache.org/)
+[![JUnit 5](https://img.shields.io/badge/tests-JUnit%205-green?logo=junit5)](https://junit.org/junit5/)
+
 Trabalho de refatoração de um sistema legado responsável por gerar faturas e enviar emails de confirmação de pedidos.
 
 ## O código original
@@ -28,7 +33,9 @@ Requer Java 21+ e Maven instalados.
 
 **Remoção de `DiscountPolicy`:** a classe existia mas nunca era chamada. A lógica de desconto já estava em `Order` de forma mais coesa, então `DiscountPolicy` foi removida sem perda alguma.
 
-**Javadoc em `EmailService`:** adicionado um aviso de que o serviço é chamado internamente por `Order` e não deve ser acessado diretamente pelo código cliente.
+**Injeção de dependência em `EmailService`:** o método `sendEmail` deixou de ser `static`. A instância de `EmailService` agora é recebida no construtor de `Order`, o que permite substituí-la por um mock em testes futuros. O Javadoc documenta que o serviço é de uso interno e não deve ser chamado diretamente pelo código cliente.
+
+**Eliminação de feature envy em `Item`:** `Item` ganhou o método `toDisplayString()`, que centraliza a formatação da própria linha na nota fiscal. O `printInvoice()` de `Order` parou de acessar três campos de `Item` para montar a string, delegando essa responsabilidade ao próprio objeto.
 
 ## Estrutura final
 
@@ -36,7 +43,7 @@ Requer Java 21+ e Maven instalados.
 src/main/java/com/ecommerce/
   App.java           ponto de entrada da aplicação
   Client.java        dados do cliente (nome e email)
-  Item.java          produto com quantidade, preço e subtotal
+  Item.java          produto com quantidade, preço, subtotal e formatação para exibição
   Order.java         pedido com cálculo de total e emissão de fatura
   EmailService.java  envio de email (usado internamente por Order)
 

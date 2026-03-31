@@ -30,4 +30,9 @@ public class Item {
     public double subtotal() {
         return price * quantity;
     }
+
+    /** @return linha formatada para exibição na nota fiscal */
+    public String toDisplayString() {
+        return quantity + "x " + productName + " - R$" + price;
+    }
 }

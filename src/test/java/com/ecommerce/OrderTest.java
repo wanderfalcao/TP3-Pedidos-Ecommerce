@@ -14,7 +14,7 @@ class OrderTest {
     @BeforeEach
     void setUp() {
         Client client = new Client("João", "joao@email.com");
-        order = new Order(client, 0.1);
+        order = new Order(client, 0.1, new EmailService());
     }
 
     @Test
@@ -66,7 +66,7 @@ class OrderTest {
 
     @Test
     void totalWithZeroDiscount() {
-        Order orderNoDiscount = new Order(new Client("Ana", "ana@email.com"), 0.0);
+        Order orderNoDiscount = new Order(new Client("Ana", "ana@email.com"), 0.0, new EmailService());
         orderNoDiscount.addItem(new Item("Notebook", 1, 3500.0));
 
         assertThat(orderNoDiscount.calculateTotal()).isCloseTo(3500.0, within(0.01));
@@ -74,7 +74,7 @@ class OrderTest {
 
     @Test
     void totalWithFullDiscount() {
-        Order orderFullDiscount = new Order(new Client("Ana", "ana@email.com"), 1.0);
+        Order orderFullDiscount = new Order(new Client("Ana", "ana@email.com"), 1.0, new EmailService());
         orderFullDiscount.addItem(new Item("Notebook", 1, 3500.0));
 
         assertThat(orderFullDiscount.calculateTotal()).isCloseTo(0.0, within(0.01));

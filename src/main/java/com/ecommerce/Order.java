@@ -12,10 +12,12 @@ public class Order {
     private final Client client;
     private final List<Item> items = new ArrayList<>();
     private final double discountRate;
+    private final EmailService emailService;
 
-    public Order(Client client, double discountRate) {
+    public Order(Client client, double discountRate, EmailService emailService) {
         this.client = client;
         this.discountRate = discountRate;
+        this.emailService = emailService;
     }
 
     public void addItem(Item item) {
@@ -46,7 +48,7 @@ public class Order {
 
         System.out.println("Cliente: " + client.getName());
         for (Item item : items) {
-            System.out.println(item.getQuantity() + "x " + item.getProductName() + " - R$" + item.getPrice());
+            System.out.println(item.toDisplayString());
         }
         System.out.println("Subtotal: R$" + subtotal);
         System.out.println("Desconto: R$" + discount);
@@ -54,6 +56,6 @@ public class Order {
     }
 
     public void sendEmail() {
-        EmailService.sendEmail(client.getEmail(), "Pedido recebido! Obrigado pela compra.");
+        emailService.sendEmail(client.getEmail(), "Pedido recebido! Obrigado pela compra.");
     }
 }
